@@ -1,6 +1,8 @@
+import 'react-native-url-polyfill/auto';
+
 import { registerRootComponent } from 'expo';
 
-import App from './src/App';
+import Storybook from './storybook';
 
 // registerRootComponent ensures the app environment is set up correctly
-registerRootComponent(App);
+registerRootComponent(Storybook);

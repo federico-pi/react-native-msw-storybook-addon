@@ -15,19 +15,22 @@
     "noUnusedParameters": true,
     "useUnknownInCatchVariables": false,
     "strict": true,
-    "lib": ["es7", "dom"],
+    "lib": [
+      "es7",
+      "dom"
+    ],
     "composite": true,
     "declarationMap": true,
     "sourceMap": true,
     "skipLibCheck": true,
     "rootDir": "./",
-    "outDir": "./build",
+    "outDir": "./build"
   },
   "include": [
     "./src",
-    "./storybook",
+    "./storybook"
   ],
   "exclude:": [
-    "./build",
+    "./build"
   ]
 }

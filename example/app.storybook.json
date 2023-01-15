@@ -1,8 +1,15 @@
 {
   "expo": {
-    "name": "react-native-msw-storybook-addon-example",
-    "slug": "react-native-msw-storybook-addon-example",
-    "entryPoint": "./index.js",
+    "entryPoint": "./storybook-index.js",
+    "slug": "react-native-msw-storybook-addon-example/storybook",
+    "name": "react-native-msw-storybook-addon-example/storybook",
+    "platforms": [
+      "ios",
+      "android"
+    ],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -15,19 +22,15 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.reactnativemswstorybookaddon.example"
-    },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
       "package": "com.reactnativemswstorybookaddon.example"
+    },
+    "ios": {
+      "bundleIdentifier": "com.reactnativemswstorybookaddon.example"
     },
     "web": {
       "favicon": "./assets/favicon.png"
