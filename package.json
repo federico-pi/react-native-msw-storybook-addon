@@ -1,0 +1,18 @@
+{
+  "name": "react-native-msw-storybook-addon",
+  "license": "MIT",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsup index.ts --format cjs,esm --dts",
+    "lint": "tsc",
+    "preinstall": "npx only-allow pnpm"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.26.0",
+    "tsup": "^6.5.0",
+    "typescript": "^4.9.4"
+  }
+}
