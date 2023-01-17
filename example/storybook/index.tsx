@@ -3,36 +3,37 @@ import { getStorybookUI, configure, addDecorator } from '@storybook/react-native
 import { LogBox } from 'react-native';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
-import { initializeMsw, withMsw, withReactQuery } from './decorators';
+import { DecoratorType, initializeMsw, withMsw, withReactQuery } from './decorators';
 
 import * as stories from './stories';
 
-import './rn-addons';
+import './modules/rn-addons';
 
 const queryClient = new QueryClient();
 
 // Available options @ https://github.com/storybookjs/react-native/tree/master/app/react-native#getstorybookui-options
-const StorybookUIRoot = getStorybookUI({
+// There may be an instance where resolving to localhost cannot connect to the storybook app,
+// to fix you can force the host by adding the property `host: [IP_ADDRESS]`, or
+// pass in the flag `-h [IP_ADDRESS]` when running the storybook server
+const StorybookUI = getStorybookUI({
   port: 7007,
   asyncStorage: require('@react-native-async-storage/async-storage').default || null,
 });
 
-// No need for warnings in a sandbox environment
-LogBox.ignoreAllLogs();
+LogBox.ignoreAllLogs(); // No need for warnings in a sandbox environment
 
 initializeMsw();
 
-configure(() => stories, module);
-
-// Enables knobs for all stories
-addDecorator(withKnobs);
-addDecorator(withMsw);
+addDecorator(withKnobs); // Enables knobs for all stories
+addDecorator(withMsw as unknown as DecoratorType);
 addDecorator((storyFn) => withReactQuery(storyFn, queryClient));
+
+configure(() => stories, module);
 
 export default () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <StorybookUIRoot />
+      <StorybookUI />
     </QueryClientProvider>
   )
 };

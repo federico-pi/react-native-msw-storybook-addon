@@ -1,4 +1,4 @@
-import { StoryFn } from '@storybook/addons';
+import { StoryFn, DecoratorFunction } from '@storybook/addons';
 import { values, isEmpty, isArray } from 'lodash';
 import { RequestHandler, MockedRequest, DefaultBodyType } from 'msw';
 import { setupServer } from 'msw/native';
@@ -14,13 +14,15 @@ type HandlersChunk = RequestHandler<
   MockedRequest<DefaultBodyType>
 >[];
 
-type MswParameters =
-  | RequestHandler[]
-  | { handlers: RequestHandler[] | Record<string, RequestHandler> };
+export type DecoratorType = DecoratorFunction<unknown>
+
+export type MswHandlers = { handlers: RequestHandler[] | Record<string, RequestHandler> };
+
+export type MswParameters = { parameters: { msw: MswHandlers } };
 
 const server = setupServer();
 
-const setMswHandlers = (msw: MswParameters | undefined) => {
+const setMswHandlers = (msw: MswHandlers | undefined) => {
   if (!msw) {
     return console.info('No instance of msw found, aborting');
   }
@@ -45,22 +47,19 @@ const setMswHandlers = (msw: MswParameters | undefined) => {
     }
   }
 
-  return console.info('Could not set handlers for msw server');
+  return console.info('No handlers found, ensure msw handlers are passed correctly');
 };
 
-// Storybook decorator
-export const withMsw = (
-  storyFn: StoryFn<unknown>,
-  { parameters: { msw } }: { parameters: any },
-) => {
+/** @description Allow set of msw handlers */
+export const withMsw = (storyFn: StoryFn<unknown>, { parameters: { msw } }: MswParameters) => {
   server.resetHandlers(); // cleaning handlers
 
-  setMswHandlers(msw); // setting new handlers
+  setMswHandlers(msw); // setting handlers
 
-  return storyFn();
+  return () => storyFn();
 };
 
-// Initialize msw server
+/** @description Initialize msw server */
 export const initializeMsw = () => {
   // Do not warn or error out if a non-mocked request happens.
   // If we don't use this, Storybook will be spammy about requests
